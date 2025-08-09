@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message From Lavi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Patrick Hand', cursive;
+            background-color: #FFF0F5; /* Lavender Blush */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            color: #4B4B4B;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            background-color: white;
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            max-width: 420px;
+        }
+        
+        .header {
+            color: #FFB6C1; /* Light Pink */
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .kitten-gif {
+            width: 180px;
+            height: 180px;
+            margin: 10px auto;
+            border-radius: 20px;
+        }
+
+        .thought-bubble {
+            position: relative;
+            background-color: #F0F8FF;
+            padding: 20px;
+            border-radius: 40px;
+            border: 3px solid #D3D3D3;
+            color: #89CFF0;
+            font-size: 22px;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+        
+        .input-container {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        #answer-input {
+            font-family: 'Patrick Hand', cursive;
+            border: 2px solid #E0E0E0;
+            border-radius: 20px;
+            padding: 10px 15px;
+            font-size: 18px;
+            flex-grow: 1;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        #answer-input:focus {
+            border-color: #FFB6C1;
+        }
+
+        .btn {
+            font-family: 'Patrick Hand', cursive;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            color: white;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #send-btn { background-color: #C1E1C1; }
+        #next-question-btn { background-color: #B0C4DE; }
+        
+        .clock {
+            margin-top: 20px;
+            font-size: 22px;
+            color: #B0C4DE;
+        }
+        
+        .mood-switcher {
+            margin-top: 15px;
+        }
+        
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 200px;
+          height: 34px;
+        }
+
+        .switch input { 
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #FFC0CB;
+          transition: .4s;
+          border-radius: 34px;
+          font-size: 14px;
+          color: white;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 95px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          transition: .4s;
+          border-radius: 34px;
+        }
+
+        input:checked + .slider {
+          background-color: #89CFF0;
+        }
+
+        input:checked + .slider:before {
+          transform: translateX(95px);
+        }
+        
+        .slider-text {
+            position: absolute;
+            width: 100%;
+            text-align: center;
+            line-height: 34px;
+            pointer-events: none;
+        }
+        .text-on { left: -45px; }
+        .text-off { right: -45px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="header">Hey Pootie, this is me Lavi ❤️</h1>
+        <p class="text-sm text-gray-400 -mt-2 mb-3">Talk to me anytime</p>
+
+        <div class="thought-bubble">
+            <p id="thought-text">Let me think of something to ask you...</p>
+        </div>
+
+        <img src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbDd3b2xkbm5mNWVlN3Z0N3NjcWFpemY5cGNlNmgzdGtrcTZrZmkydCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/348eiwBwqnkYTL5yax/giphy.gif" alt="Cute animated kitten" class="kitten-gif" onerror="this.onerror=null;this.src='https://placehold.co/180x180/FFF0F5/B0C4DE?text=Cute+Cat';">
+
+        <div class="input-container" id="input-container" style="display: none;">
+            <input type="text" id="answer-input" placeholder="Type your answer here...">
+            <button id="send-btn" class="btn">Send</button>
+        </div>
+        
+        <div id="next-question-container" style="display: none; margin-top: 15px;">
+            <button id="next-question-btn" class="btn">Next Question</button>
+        </div>
+
+        <div class="mood-switcher">
+            <label class="switch">
+                <input type="checkbox" id="mode-toggle">
+                <span class="slider">
+                    <span class="slider-text text-on">Lavi's Questions</span>
+                    <span class="slider-text text-off">AI Assistant</span>
+                </span>
+            </label>
+        </div>
+        
+        <div id="clock" class="clock"></div>
+    </div>
+
+    <script>
+        // --- API Key ---
+        const GEMINI_API_KEY = "AIzaSyAB5QQ1nCHxK1YgDk8DtLJ1aXKaGo1u6WA"; 
+
+        // --- Elements ---
+        const thoughtText = document.getElementById('thought-text');
+        const inputContainer = document.getElementById('input-container');
+        const answerInput = document.getElementById('answer-input');
+        const sendBtn = document.getElementById('send-btn');
+        const clockDisplay = document.getElementById('clock');
+        const modeToggle = document.getElementById('mode-toggle');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
+        const nextQuestionContainer = document.getElementById('next-question-container');
+
+        // --- State ---
+        let currentMode = 'lavi'; // 'lavi' or 'chatbot'
+        let currentQuestion = ""; 
+        const petNames = ['Baby', 'Pookie', 'Motu', 'Pootiepie', 'Golu', 'Chmol Baby'];
+
+        // --- Core Functions ---
+
+        async function callGemini(prompt) {
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) throw new Error(`API Error: ${response.status}`);
+            const result = await response.json();
+            if (result.candidates && result.candidates[0].content.parts[0].text) {
+                return result.candidates[0].content.parts[0].text.trim();
+            } else {
+                throw new Error("Could not get a valid response from API.");
+            }
+        }
+
+        async function getLaviQuestion() {
+            thoughtText.textContent = "Thinking of a question for you...";
+            inputContainer.style.display = 'none';
+            nextQuestionContainer.style.display = 'none';
+            try {
+                const randomPetName = petNames[Math.floor(Math.random() * petNames.length)];
+                const prompt = `Generate one short, cute, and random question for my girlfriend. Address her by one of these names: ${randomPetName}. Make it sweet and simple. Example: 'Did you get enough sleep, Pookie?' Do not add any other text.`;
+                currentQuestion = await callGemini(prompt);
+                thoughtText.textContent = currentQuestion;
+                inputContainer.style.display = 'flex';
+                answerInput.placeholder = "Type your answer here...";
+                answerInput.focus();
+            } catch (error) {
+                console.error("Error fetching question:", error);
+                thoughtText.textContent = "Oops! My brain is fuzzy. Maybe the API key is napping. ❤️";
+            }
+        }
+
+        async function handleSubmit() {
+            const userAnswer = answerInput.value;
+            if (!userAnswer.trim()) return;
+
+            inputContainer.style.display = 'none';
+            thoughtText.textContent = "aww, lemme think motuu...";
+            answerInput.value = "";
+
+            try {
+                let prompt;
+                if (currentMode === 'lavi') {
+                    prompt = `My girlfriend was asked: "${currentQuestion}" Her answer was: "${userAnswer}". Write a very short, cute, helpful and loving response to her. Keep it to one sentence.`;
+                } else { // chatbot mode
+                    prompt = `The user said: "${userAnswer}". Respond as a helpful and friendly AI assistant. Keep it concise.`;
+                }
+                const aiReply = await callGemini(prompt);
+                thoughtText.textContent = aiReply;
+
+                if (currentMode === 'lavi') {
+                    nextQuestionContainer.style.display = 'block';
+                } else {
+                    inputContainer.style.display = 'flex';
+                    answerInput.focus();
+                }
+            } catch (error) {
+                console.error("Error getting reply:", error);
+                thoughtText.textContent = "I'm a little sleepy and can't think of a reply right now!";
+                if (currentMode === 'lavi') {
+                    setTimeout(getLaviQuestion, 3000);
+                } else {
+                    inputContainer.style.display = 'flex';
+                }
+            }
+        }
+
+        function switchMode() {
+            currentMode = modeToggle.checked ? 'chatbot' : 'lavi';
+            nextQuestionContainer.style.display = 'none';
+            if (currentMode === 'lavi') {
+                getLaviQuestion();
+            } else {
+                thoughtText.textContent = "Hi! I'm your friendly AI Assistant. How can I help you today?";
+                inputContainer.style.display = 'flex';
+                answerInput.placeholder = "Ask me anything...";
+                answerInput.focus();
+            }
+        }
+
+        function updateTime() {
+            const now = new Date();
+            clockDisplay.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        }
+        
+        function initializeApp() {
+            getLaviQuestion();
+            updateTime();
+            setInterval(updateTime, 1000);
+
+            sendBtn.addEventListener('click', handleSubmit);
+            answerInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSubmit(); });
+            modeToggle.addEventListener('change', switchMode);
+            nextQuestionBtn.addEventListener('click', getLaviQuestion);
+        }
+
+        initializeApp();
+    </script>
+
+</body>
+</html>
